@@ -10,7 +10,7 @@ for d in dataset.plot_keywords:
 word_pairs = []
 sim_words = []
 sim_words_all, sim_words_list = [],[]
-for w in range(0, 1):
+for w in range(0, 3):
     print(words[w])
     for x in words:
         if words[w] == x:

@@ -14,9 +14,9 @@ def getcount(a, genres):
     counted = []
     for i in range(len(a)):
         avalue = a[i]
-        genrevalue=genres[i]
+        genrevalue = genres[i]
         count = 0
-        checkvalue=(str(avalue)+","+str(genrevalue))
+        checkvalue = (str(avalue) + "," + str(genrevalue))
         if checkvalue not in counted:
             for x in range(len(a)):
                 if avalue == a[x] and genrevalue == genres[x]:
@@ -120,9 +120,9 @@ for n in dataset.gross:
     gross.append(str(n))
 
 hashdirectors = getcount(dir_names, genres)
-countedactors, hashmap=getcountactors(hashmap, countedactors, act_1, act_1, act_2, act_3, genres)
-countedactors, hashmap=getcountactors(hashmap, countedactors, act_2, act_1, act_2, act_3, genres)
-countedactors, hashmap=getcountactors(hashmap, countedactors, act_3, act_1, act_2, act_3, genres)
+countedactors, hashmap = getcountactors(hashmap, countedactors, act_1, act_1, act_2, act_3, genres)
+countedactors, hashmap = getcountactors(hashmap, countedactors, act_2, act_1, act_2, act_3, genres)
+countedactors, hashmap = getcountactors(hashmap, countedactors, act_3, act_1, act_2, act_3, genres)
 
 dir_names = putfrequency(hashdirectors, dir_names, genres)
 act_1 = putfrequency(hashmap, act_1, genres)
@@ -139,5 +139,3 @@ df.to_csv("sorted_data2.csv")
 
 print("hello")
 print(hashmap)
-
-
