@@ -3,9 +3,18 @@ from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from numpy import array,ravel
 
+
+def get_num(name, name_list, num_list):
+    for i in range(len(name_list)):
+        if name_list[i] == name:
+            return num_list[i]
+
 data = pd.read_csv("sorted_data2.csv")
 data_text = pd.read_csv("new_data2.csv")
 data.drop(data.columns[1], axis=1)
+
+old_data = pd.read_csv("sorted_data1.csv")
+old_data_text = pd.read_csv("new_data1.csv")
 
 in_dir = input("Enter Director: ")
 in_act = input("Enter Actor: ")
@@ -13,6 +22,11 @@ in_act2 = input("Enter Actor 2: ")
 in_act3 = input("Enter Actor 3: ")
 in_genre = input("Genre: ")
 
+old_in_list = [get_num(in_dir, old_data_text.director_name, old_data.director_name),
+               get_num(in_act, old_data_text.actor_1_name, old_data.actor_1_name),
+               get_num(in_act2, old_data_text.actor_2_name, old_data.actor_2_name),
+               get_num(in_act3, old_data_text.actor_3_name, old_data.actor_3_name)]
+print(old_in_list)
 in_list = []
 
 dir_found = False
@@ -47,19 +61,44 @@ reg_set = data.loc[data['genres'] == in_genre]
 x = reg_set.iloc[:, :-2]
 y = reg_set.iloc[:, 5:6]
 
+x_old = old_data.iloc[:, 1:5]
+y_old = old_data.iloc[:, 6:7]
+
+print(x_old)
+
 regressor = LinearRegression()
+poly_regressor = SVR(kernel='poly')
+rbf_regressor = SVR(kernel='rbf', C=1, gamma=1)
+sig_regressor = SVR(kernel='sigmoid')
+
+print("---------Without Genre Based Clustering---------")
+
+regressor.fit(x_old, y_old)
+np_list = array(old_in_list).reshape(1,-1)
+print("With Multiple Linear Regression", float(regressor.predict(np_list)))
+
+# poly_regressor.fit(x_old, ravel(y_old))
+# print("With Polynomial SVR", float(poly_regressor.predict(np_list)))
+#
+rbf_regressor.fit(x_old, ravel(y_old))
+print("With RBF SVR", float(rbf_regressor.predict(np_list)))
+
+sig_regressor.fit(x_old, ravel(y_old))
+print("With Sigmoid SVR", float(sig_regressor.predict(np_list)))
+
+print("---------With Genre Based Clustering---------")
+
 regressor.fit(x, y)
 np_list = array(in_list).reshape(1,-1)
 print("With Multiple Linear Regression", float(regressor.predict(np_list)))
 
-regressor = SVR(kernel='poly')
-regressor.fit(x, ravel(y))
-print("With Polynomial SVR", float(regressor.predict(np_list).reshape(1, -1)))
 
-regressor = SVR(kernel='rbf')
-regressor.fit(x, ravel(y))
-print("With RBF SVR", float(regressor.predict(np_list).reshape(1, -1)))
+poly_regressor.fit(x, ravel(y))
+print("With Polynomial SVR", float(poly_regressor.predict(np_list).reshape(1, -1)))
 
-regressor = SVR(kernel='sigmoid')
-regressor.fit(x, ravel(y))
-print("With Sigmoid SVR", float(regressor.predict(np_list).reshape(1, -1)))
+
+rbf_regressor.fit(x, ravel(y))
+print("With RBF SVR", float(rbf_regressor.predict(np_list).reshape(1, -1)))
+
+sig_regressor.fit(x, ravel(y))
+print("With Sigmoid SVR", float(sig_regressor.predict(np_list).reshape(1, -1)))
