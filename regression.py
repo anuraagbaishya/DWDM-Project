@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
+from sklearn.neighbors import KNeighborsRegressor
 from numpy import array,ravel
 
 
@@ -64,12 +65,11 @@ y = reg_set.iloc[:, 5:6]
 x_old = old_data.iloc[:, 1:5]
 y_old = old_data.iloc[:, 6:7]
 
-print(x_old)
-
 regressor = LinearRegression()
 poly_regressor = SVR(kernel='poly')
 rbf_regressor = SVR(kernel='rbf', C=1, gamma=1)
 sig_regressor = SVR(kernel='sigmoid')
+knn_regressor = KNeighborsRegressor(n_neighbors=1, weights='distance')
 
 print("---------Without Genre Based Clustering---------")
 
@@ -85,6 +85,10 @@ print("With RBF SVR", float(rbf_regressor.predict(np_list)))
 
 sig_regressor.fit(x_old, ravel(y_old))
 print("With Sigmoid SVR", float(sig_regressor.predict(np_list)))
+
+knn_regressor.fit(x_old, y_old)
+np_list = array(old_in_list).reshape(1,-1)
+print("With KNN Regression", float(knn_regressor.predict(np_list)))
 
 print("---------With Genre Based Clustering---------")
 
@@ -102,3 +106,6 @@ print("With RBF SVR", float(rbf_regressor.predict(np_list).reshape(1, -1)))
 
 sig_regressor.fit(x, ravel(y))
 print("With Sigmoid SVR", float(sig_regressor.predict(np_list).reshape(1, -1)))
+
+knn_regressor.fit(x, y)
+print("With KNN Regression", float(knn_regressor.predict(np_list)))
