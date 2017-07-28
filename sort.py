@@ -60,49 +60,6 @@ def putfrequency(hashmap1, col, genres):
         col[n] = count
     return col
 
-
-# def getcount(a):
-#     hashcollection = defaultdict(list)
-#     counted = []
-#     for i in a:
-#         count = 0
-#         if i not in counted:
-#             for col in a:
-#                 if i == col:
-#                     count += 1
-#             hashcollection[count].append(i)
-#             counteddirectors.append(i)
-#     return hashcollection
-#
-#
-# def getcountactors(hashcollection, counted, a, act1, act2, act3):
-#     for actor in a:
-#         count = 0
-#         if actor not in counted:
-#             for col in act1:
-#                 if actor == col:
-#                     count += 1
-#             for col in act2:
-#                 if actor == col:
-#                     count += 1
-#             for col in act3:
-#                 if actor == col:
-#                     count += 1
-#             hashcollection[count].append(actor)
-#             counted.append(actor)
-#     return counted, hashcollection
-#
-#
-# def putfrequency(hashmap1, col):
-#     for n in range(len(col)):
-#         count = 0
-#         for key, value in hashmap1.iteritems():
-#             if col[n] in value:
-#                 count = key
-#                 break
-#         col[n] = count
-#     return col
-
 hashmap = defaultdict(list)
 hashdirectors = defaultdict(list)
 fields = ["director_name", "actor_1_name", "actor_2_name", "actor_3_name", "genres", "gross"]
